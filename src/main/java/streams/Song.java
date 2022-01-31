@@ -40,11 +40,11 @@ public class Song {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Song song = (Song) o;
-        return Objects.equals(title, song.title);
+        return length == song.length && Objects.equals(title, song.title) && Objects.equals(performers, song.performers) && Objects.equals(release, song.release);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title);
+        return Objects.hash(title, length, performers, release);
     }
 }

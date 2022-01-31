@@ -11,7 +11,11 @@ public class SongService {
     private List<Song> songs = new ArrayList<>();
 
     public void addSong(Song song) {
+
+        // validálásra visszatérni
+
         songs.add(song);
+
     }
 
     public Optional<Song> shortestSong() {

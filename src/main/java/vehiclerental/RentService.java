@@ -39,6 +39,8 @@ public class RentService {
             actualRenting.remove(rentable);
             user.minusBalance(rentable.calculateSumPrice(minutes));
             rentable.closeRent();
+        } else {
+            throw new IllegalStateException("Cannot close rent");
         }
     }
 

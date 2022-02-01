@@ -11,7 +11,7 @@ public class MovieTheatreService {
     private static final String SEPARATOR = "-";
     private static final String SEPARATOR2 = ";";
 
-    Map<String, List<Movie>> shows = new TreeMap<>();
+    Map<String, List<Movie>> shows = new LinkedHashMap<>();
 
     public void readFromFile(Path path) {
         try (BufferedReader br = Files.newBufferedReader(path)) {
@@ -23,6 +23,16 @@ public class MovieTheatreService {
         } catch (IOException ioe) {
             throw new IllegalStateException("Error while reading file!", ioe);
         }
+
+        for (Map.Entry<String,List<Movie>> actual: shows.entrySet()) {
+            actual.getValue().sort(new Comparator<Movie>() {
+                @Override
+                public int compare(Movie o1, Movie o2) {
+                    return o1.getStartTime().compareTo(o2.getStartTime());
+                }
+            });
+        }
+
     }
 
     public List<String> findMovie(String title) {
@@ -33,7 +43,6 @@ public class MovieTheatreService {
                     result.add(entry.getKey());
                 }
         }
-        Collections.sort(result);
         return result;
     }
 
@@ -67,6 +76,6 @@ public class MovieTheatreService {
     }
 
     public Map<String, List<Movie>> getShows() {
-        return new HashMap<>(shows);
+        return new LinkedHashMap<>(shows);
     }
 }

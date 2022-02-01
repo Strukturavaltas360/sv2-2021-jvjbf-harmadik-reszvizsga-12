@@ -11,8 +11,7 @@ public class MovieTheatreService {
     private static final String SEPARATOR = "-";
     private static final String SEPARATOR2 = ";";
 
-    Map<String, List<Movie>> shows = new HashMap<>();
-
+    Map<String, List<Movie>> shows = new TreeMap<>();
 
     public void readFromFile(Path path) {
         try (BufferedReader br = Files.newBufferedReader(path)) {
@@ -59,19 +58,12 @@ public class MovieTheatreService {
 
     private void findAndInsert(String theatre, String movieTitle, LocalTime startTime) {
         List<Movie> actual = shows.get(theatre);
-//        Set<Movie> actSet = new TreeSet<>(shows.get(theatre));
 
         if (actual == null) {
             actual = new ArrayList<>();
             shows.put(theatre, actual);
         }
         actual.add(new Movie(movieTitle, startTime));
-        actual.sort(new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                return o1.getStartTime().compareTo(o2.getStartTime());
-            }
-        });
     }
 
     public Map<String, List<Movie>> getShows() {
